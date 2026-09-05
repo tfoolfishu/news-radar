@@ -353,9 +353,17 @@ def _record_ok(src_id, health):
         "fail_streak": 0,
         "last_error": "",
         "disabled_until": 0,
+        "cooldown_level": 0,  # 成功即恢复：冷却档位清零，下次故障从头计
         "ok_count": h.get("ok_count", 0) + 1,
     })
     health[src_id] = h
+
+
+def _next_cooldown_hours(settings, current_level):
+    """按冷却档位指数计算本次冷却时长（小时）：base * 2^(level-1)，封顶 max。"""
+    base = max(1, int(settings.get("fetch", {}).get("disable_cooldown_hours", 24)))
+    cap = max(base, int(settings.get("fetch", {}).get("cooldown_max_hours", 168)))
+    return min(cap, base * (2 ** max(0, current_level - 1)))
 
 
 def _record_fail(src_id, health, err, settings):
@@ -369,8 +377,13 @@ def _record_fail(src_id, health, err, settings):
     })
     threshold = int(settings.get("fetch", {}).get("fail_streak_disable", 3))
     if streak >= threshold:
-        cooldown = int(settings.get("fetch", {}).get("disable_cooldown_hours", 6))
-        h["disabled_until"] = int(time.time()) + cooldown * 3600
+        # 达到禁用阈值：冷却档位+1，冷却时长指数增长并封顶。
+        # 冷却期结束后的下一次失败会再次触发，档位继续抬高，
+        # 避免「持续不可达」源每轮 cron 都做一遍注定失败的重试。
+        level = int(h.get("cooldown_level", 0)) + 1
+        h["cooldown_level"] = level
+        hours = _next_cooldown_hours(settings, level)
+        h["disabled_until"] = int(time.time()) + hours * 3600
     health[src_id] = h
 
 
