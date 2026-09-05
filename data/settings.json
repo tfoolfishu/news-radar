@@ -6,7 +6,7 @@
     "per_query_limit": 25,
     "window_hours": 36,
     "fail_streak_disable": 3,
-    "disable_cooldown_hours": 6,
+    "disable_cooldown_hours": 24,
     "min_topic_score": 3
   },
   "verify": {
