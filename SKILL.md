@@ -14,7 +14,7 @@ metadata:
     blueprint:
       schedule: "0 8 * * *"
       deliver: origin
-      prompt: "执行 news-radar 每日资讯流程：1) 运行 `newsctl.py fetch` 抓取当日各启用领域资讯并做事实核查机械层；2) 运行 `newsctl.py digest` 生成带完整溯源的存档日报（备查与后续问询用）；3) 运行 `newsctl.py push --print` 生成纯净推送文本，**直接把 push 命令输出的内容作为今日简报推送给我**（纯净格式：仅日期、模块编号、新闻内容，不要附带链接与核查过程）。若 fetch 后出现待复核条目，先按 factcheck-rules 做语义复核回写再推送。"
+      prompt: "执行 news-radar 每日资讯流程，按顺序完成、不得跳步：1) 运行 `newsctl.py fetch` 抓取当日各启用领域资讯并做事实核查机械层入库；2) **必须**运行 `newsctl.py verify list` 查看待语义复核条目，逐条依据 references/factcheck-rules.md 判断，用 `newsctl.py verify batch` 或 `verify set` 回写 accept/reject/hold（只复核当日新增条目，勿被历史遗留待办干扰；无待复核条目则跳过）；3) 运行 `newsctl.py digest` 生成带完整溯源的存档日报（备查与后续问询用）；4) 运行 `newsctl.py push --print` 生成纯净推送文本，**直接把 push 命令输出的内容作为今日简报推送给我**（纯净格式：仅日期、模块编号、新闻内容，不要附带链接与核查过程）。"
 ---
 
 # News Radar — 定时资讯搜集 · 事实核查 · 归档问询
