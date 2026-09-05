@@ -216,7 +216,11 @@ DEFAULT_SETTINGS = {
         "per_query_limit": 25,
         "window_hours": 36,
         "fail_streak_disable": 3,
-        "disable_cooldown_hours": 6,
+        # 连续失败达阈值后的基础冷却时长（小时）。之后若冷却结束仍失败，
+        # 冷却时长按 cooldown_max_hours 封顶指数翻倍（见 sources._record_fail）
+        "disable_cooldown_hours": 24,
+        # 冷却时长封顶（小时，默认 7 天）：防止持续不可达源无限拉长冷却
+        "cooldown_max_hours": 168,
         # 固定栏目源（stream）的条目需达到此关键词命中分才归入该领域，
         # 用于过滤无关内容；搜索型源（query）不受此限制
         "min_topic_score": 3,
