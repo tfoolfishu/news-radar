@@ -1,0 +1,17 @@
+{
+  "_comment": "领域配置模板。新增领域与内置默认领域共用此结构，由 config.normalize_topic() 统一归一化，保证处理管道完全一致。手工编辑 data/topics.json 时请保持字段完整。",
+  "id": "energy",
+  "name": "能源",
+  "enabled": true,
+  "archived": false,
+  "builtin": false,
+  "created_at": "2026-09-05T12:00:00",
+  "updated_at": "2026-09-05T12:00:00",
+  "archived_at": "",
+  "query_zh": ["能源", "电力", "光伏", "风电", "核电", "煤炭", "原油", "天然气", "储能", "电网"],
+  "query_en": ["energy", "power grid", "solar", "wind power", "nuclear", "coal", "oil", "natural gas", "battery storage"],
+  "regions": ["cn", "intl"],
+  "min_confidence": 50,
+  "max_items": 10,
+  "note": "能源生产、价格、政策与基础设施"
+}

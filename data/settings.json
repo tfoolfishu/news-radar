@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "fetch": {
+    "timeout": 12,
+    "max_workers": 12,
+    "per_query_limit": 25,
+    "window_hours": 36,
+    "fail_streak_disable": 3,
+    "disable_cooldown_hours": 6,
+    "min_topic_score": 3
+  },
+  "verify": {
+    "auto_accept_score": 72,
+    "review_score": 45
+  },
+  "digest": {
+    "include_unverified_section": true,
+    "language": "zh"
+  },
+  "push": {
+    "default_max_items": 5,
+    "default_order_by": "confidence",
+    "module_number": true,
+    "summary_len": 200
+  },
+  "trusted_groups": [
+    "新华社",
+    "人民日报社",
+    "中国新闻网",
+    "央视"
+  ],
+  "retention_days": 0
+}
